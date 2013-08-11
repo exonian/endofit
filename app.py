@@ -10,8 +10,6 @@ app.config.from_envvar('ENDOFIT_SETTINGS')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
-MOCK_PAGES = ['foo', 'bar']
-
 class QuestionObject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     page_name = db.Column(db.String(256), index=True, unique=True)
@@ -38,13 +36,11 @@ class VisitQuestionPage(MethodView):
             return self.get_placeholder_page(page_name)
 
     def get_question_object(self, page_name):
-        if page_name in MOCK_PAGES:
-            return page_name
-        else:
-            return None
+        question_object = QuestionObject.query.filter_by(page_name=page_name).first()
+        return question_object
 
     def get_existing_page(self, question_object):
-        return render_template('hello.html', page_name=question_object)
+        return render_template('hello.html', page_name=question_object.page_name)
 
     def get_placeholder_page(self, page_name):
         return render_template('new_page.html', page_name=page_name)
