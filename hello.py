@@ -1,9 +1,14 @@
+import os
+
 from flask import Flask
 from flask import render_template
+from flask.ext.sqlalchemy import SQLAlchemy
 from flask.views import MethodView
 
 app = Flask(__name__)
 app.config.from_envvar('ENDOFIT_SETTINGS')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+db = SQLAlchemy(app)
 
 MOCK_PAGES = ['foo', 'bar']
 

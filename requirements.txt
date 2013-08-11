@@ -1,12 +1,15 @@
 Flask==0.10.1
 Flask-Assets==0.8
+Flask-SQLAlchemy==1.0
 Jinja2==2.7.1
 MarkupSafe==0.18
+SQLAlchemy==0.8.2
 Werkzeug==0.9.3
 argparse==1.2.1
 distribute==0.6.34
 ipdb==0.7
 ipython==1.0.0
 itsdangerous==0.22
+psycopg2==2.5.1
 webassets==0.8
 wsgiref==0.1.2
