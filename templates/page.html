@@ -3,5 +3,5 @@
 {% block title %}{{ question_object.page_name }}{% endblock title %}
 
 {% block page %}
-    Hello {{ question_object.page_name }}.
+    <h1 class="answer">{{ question_object.get_display_answer() }}</h1>
 {% endblock page %}

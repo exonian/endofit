@@ -25,6 +25,12 @@ class QuestionObject(db.Model):
     def __repr__(self):
         return self.page_name
 
+    def get_display_answer(self):
+        if self.answer:
+            return "YES"
+        else:
+            return "NO"
+
 
 class VisitQuestionPage(MethodView):
 
