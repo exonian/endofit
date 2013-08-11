@@ -32,6 +32,12 @@ class QuestionObject(db.Model):
             return "NO"
 
 
+class Home(MethodView):
+
+    def get(self):
+        return render_template('home.html')
+
+
 class VisitQuestionPage(MethodView):
 
     def get(self, page_name):
@@ -50,6 +56,12 @@ class VisitQuestionPage(MethodView):
 
     def get_placeholder_page(self, page_name):
         return render_template('new_page.html', page_name=page_name)
+
+
+app.add_url_rule(
+    '/',
+    view_func=Home.as_view('home')
+)
 
 app.add_url_rule(
     '/',
