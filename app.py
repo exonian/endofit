@@ -1,9 +1,9 @@
 import os
 
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, redirect, request, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.views import MethodView
+from wtforms import BooleanField, Form, TextField, validators
 
 app = Flask(__name__)
 app.config.from_envvar('ENDOFIT_SETTINGS')
@@ -32,6 +32,11 @@ class QuestionObject(db.Model):
             return "NO"
 
 
+class QuestionObjectCreationForm(Form):
+    page_name = TextField('Your question', [validators.Length(min=1, max=256)])
+    answer = BooleanField('The answer')
+
+
 class Home(MethodView):
 
     def get(self):
@@ -54,8 +59,40 @@ class VisitQuestionPage(MethodView):
     def get_existing_page(self, question_object):
         return render_template('page.html', question_object=question_object)
 
-    def get_placeholder_page(self, page_name):
-        return render_template('new_page.html', page_name=page_name)
+    def get_placeholder_page(self, page_name, form=None):
+        form = form or QuestionObjectCreationForm()
+        return render_template(
+            'new_page.html',
+            page_name=page_name,
+            form=form,
+        )
+
+    def post(self, page_name):
+        question_object = self.get_question_object(page_name)
+        if question_object:
+            # if it exists, you can only POST to it from its admin page
+            abort(403)
+        else:
+            return self.create_page(page_name)
+
+    def create_page(self, page_name):
+        form = QuestionObjectCreationForm(request.form)
+        if form.validate():
+            new_question_object = QuestionObject(
+                form.page_name.data,
+                form.answer.data
+            )
+            db.session.add(new_question_object)
+            db.session.commit()
+            return redirect(url_for(
+                'visit_question_page',
+                page_name=new_question_object.page_name
+            ))
+        else:
+            return self.get_placeholder_page(
+                page_name=form.page_name.data,
+                form=form
+            )
 
 
 app.add_url_rule(
