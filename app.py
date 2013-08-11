@@ -34,7 +34,6 @@ class QuestionObject(db.Model):
 
 class QuestionObjectCreationForm(Form):
     page_name = TextField('Your question', [validators.Length(min=1, max=256)])
-    answer = BooleanField('The answer')
 
 
 class Home(MethodView):
@@ -76,11 +75,12 @@ class VisitQuestionPage(MethodView):
             return self.create_page(page_name)
 
     def create_page(self, page_name):
-        form = QuestionObjectCreationForm(request.form)
+        raw_form = request.form
+        form = QuestionObjectCreationForm(raw_form)
         if form.validate():
             new_question_object = QuestionObject(
                 form.page_name.data,
-                form.answer.data
+                raw_form['answer']
             )
             db.session.add(new_question_object)
             db.session.commit()
