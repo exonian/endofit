@@ -40,7 +40,7 @@ class VisitQuestionPage(MethodView):
         return question_object
 
     def get_existing_page(self, question_object):
-        return render_template('hello.html', page_name=question_object.page_name)
+        return render_template('page.html', question_object=question_object)
 
     def get_placeholder_page(self, page_name):
         return render_template('new_page.html', page_name=page_name)
