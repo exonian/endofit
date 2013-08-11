@@ -12,6 +12,22 @@ db = SQLAlchemy(app)
 
 MOCK_PAGES = ['foo', 'bar']
 
+class QuestionObject(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    page_name = db.Column(db.String(256), index=True, unique=True)
+    secret = db.Column(db.String(56))
+    answer = db.Column(db.Boolean())
+    email = db.Column(db.String(120))
+
+    def __init__(self, page_name, answer, email=None):
+        self.page_name = page_name
+        self.answer = answer
+        self.email = email
+
+    def __repr__(self):
+        return self.page_name
+
+
 class VisitQuestionPage(MethodView):
 
     def get(self, page_name):

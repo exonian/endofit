@@ -1,4 +1,4 @@
-from settings.global import *
+from settings.base import *
 
 DEBUG = True
 SERVER_NAME = 'endof.local:5000'
