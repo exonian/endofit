@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Admin for {{ question_object.page_name }}{% endblock title %}
+
+{% block page %}
+    <form action="" method="post">
+        <input type="text" name="secret" placeholder="your secret code (spaces are fine)" />
+    </form>
+{% endblock page %}

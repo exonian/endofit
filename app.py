@@ -21,6 +21,7 @@ class QuestionObject(db.Model):
         self.page_name = page_name
         self.answer = answer
         self.email = email
+        self.secret = self._make_secret()
 
     def __repr__(self):
         return self.page_name
@@ -30,6 +31,9 @@ class QuestionObject(db.Model):
             return "YES"
         else:
             return "NO"
+
+    def _make_secret(self):
+        return 'foobarbang'
 
 
 class QuestionObjectCreationForm(Form):
@@ -42,7 +46,14 @@ class Home(MethodView):
         return render_template('home.html')
 
 
-class VisitQuestionPage(MethodView):
+class QuestionPageMixin(object):
+
+    def get_question_object(self, page_name):
+        question_object = QuestionObject.query.filter_by(page_name=page_name).first()
+        return question_object
+
+
+class VisitQuestionPage(QuestionPageMixin, MethodView):
 
     def get(self, page_name):
         question_object = self.get_question_object(page_name)
@@ -50,10 +61,6 @@ class VisitQuestionPage(MethodView):
             return self.get_existing_page(question_object)
         else:
             return self.get_placeholder_page(page_name)
-
-    def get_question_object(self, page_name):
-        question_object = QuestionObject.query.filter_by(page_name=page_name).first()
-        return question_object
 
     def get_existing_page(self, question_object):
         return render_template('page.html', question_object=question_object)
@@ -105,6 +112,60 @@ class VisitQuestionPage(MethodView):
             )
 
 
+class PublicAdmin(QuestionPageMixin, MethodView):
+
+    def get(self, page_name):
+        question_object = self.get_question_object(page_name)
+        if not question_object:
+            return redirect(url_for(
+                'visit_question_page',
+                page_name=page_name
+            ))
+        return render_template(
+            'public_admin.html',
+            question_object=question_object,
+        )
+
+    def post(self, page_name):
+        # trim out any spaces from input (means users can submit as
+        # separate words and thus take advantage of autocomplete)
+        secret = request.form.get('secret', '').replace(" ", "")
+        question_object = self.get_question_object(page_name)
+        if question_object and question_object.secret == secret:
+            return redirect(url_for(
+                'secret_admin',
+                page_name=page_name,
+                secret=secret,
+            ))
+        else:
+            return self.get(page_name=page_name)
+
+
+class SecretAdmin(QuestionPageMixin, MethodView):
+
+    def get(self, page_name, secret):
+        question_object = self.get_question_object(page_name)
+        if question_object and question_object.secret == secret:
+            return self.get_admin(question_object)
+        else:
+            abort(404)
+
+    def get_admin(self, question_object):
+        return render_template(
+            'secret_admin.html',
+            question_object=question_object,
+        )
+
+    def post(self, page_name, secret):
+        question_object = self.get_question_object(page_name)
+        question_object.answer = request.form['answer']
+        db.session.commit()
+        return redirect(url_for(
+            'visit_question_page',
+            page_name=page_name
+        ))
+
+
 app.add_url_rule(
     '/',
     view_func=Home.as_view('home')
@@ -114,6 +175,18 @@ app.add_url_rule(
     '/',
     subdomain='<page_name>',
     view_func=VisitQuestionPage.as_view('visit_question_page')
+)
+
+app.add_url_rule(
+    '/admin',
+    subdomain='<page_name>',
+    view_func=PublicAdmin.as_view('public_admin')
+)
+
+app.add_url_rule(
+    '/<secret>',
+    subdomain='<page_name>',
+    view_func=SecretAdmin.as_view('secret_admin')
 )
 
 
