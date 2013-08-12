@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, redirect, request, url_for
+from flask import abort, Flask, render_template, redirect, request, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.views import MethodView
 from wtforms import BooleanField, Form, TextField, validators
@@ -70,7 +70,7 @@ class VisitQuestionPage(MethodView):
         question_object = self.get_question_object(page_name)
         if question_object:
             # if it exists, you can only POST to it from its admin page
-            abort(403)
+            abort(409)
         else:
             return self.create_page(page_name)
 
