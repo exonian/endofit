@@ -66,11 +66,21 @@ class VisitQuestionPage(MethodView):
             form=form,
         )
 
+    def page_exists(self, page_name):
+        form = QuestionObjectCreationForm()
+        return render_template(
+            'page_exists.html',
+            form=form,
+            existing_page_name=page_name,
+        )
+
     def post(self, page_name):
         question_object = self.get_question_object(page_name)
         if question_object:
-            # if it exists, you can only POST to it from its admin page
-            abort(409)
+            # if it exists, this isn't the place to post to it (editing is
+            # from the admin view) so this is a potential duplicate that
+            # the user should be told about
+            return self.page_exists(page_name)
         else:
             return self.create_page(page_name)
 
