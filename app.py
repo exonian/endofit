@@ -37,7 +37,13 @@ class QuestionObject(db.Model):
 
 
 class QuestionObjectCreationForm(Form):
-    page_name = TextField('Your question', [validators.Length(min=1, max=256)])
+    page_name = TextField(
+        'Your question',
+        [
+            validators.Regexp(r'^\w+$', message='Letters and numbers only, please'),
+            validators.Length(min=1, max=256),
+        ]
+    )
 
 
 class Home(MethodView):
