@@ -82,7 +82,9 @@ class VisitQuestionPage(QuestionPageMixin, MethodView):
         )
 
     def post(self, page_name):
-        page_name = request.form.get('page_name', page_name)
+        raw_form = request.form
+        form = QuestionObjectCreationForm(raw_form)
+        page_name = form.page_name.data or page_name
         question_object = self.get_question_object(page_name)
         if question_object:
             # if it exists, this isn't the place to post to it (editing is
@@ -90,11 +92,9 @@ class VisitQuestionPage(QuestionPageMixin, MethodView):
             # the user should be told about
             return self.page_exists(page_name)
         else:
-            return self.create_page(page_name)
+            return self.create_page(raw_form, form)
 
-    def create_page(self, page_name):
-        raw_form = request.form
-        form = QuestionObjectCreationForm(raw_form)
+    def create_page(self, raw_form, form):
         if form.validate():
             new_question_object = QuestionObject(
                 form.page_name.data,
