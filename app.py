@@ -109,8 +109,9 @@ class VisitQuestionPage(QuestionPageMixin, MethodView):
             db.session.add(new_question_object)
             db.session.commit()
             return redirect(url_for(
-                'visit_question_page',
-                page_name=new_question_object.page_name
+                'secret_admin',
+                page_name=new_question_object.page_name,
+                secret=new_question_object.secret,
             ))
         else:
             return self.get_placeholder_page(
