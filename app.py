@@ -170,8 +170,9 @@ class SecretAdmin(QuestionPageMixin, MethodView):
         question_object.answer = request.form['answer']
         db.session.commit()
         return redirect(url_for(
-            'visit_question_page',
-            page_name=page_name
+            'secret_admin',
+            page_name=page_name,
+            secret=question_object.secret,
         ))
 
 
