@@ -1,12 +1,10 @@
 import os
-import random
+import uuid
 
 from flask import abort, Flask, render_template, redirect, request, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.views import MethodView
 from wtforms import BooleanField, Form, TextField, validators
-
-from wordlists import WORDLISTS
 
 app = Flask(__name__)
 app.config.from_envvar('ENDOFIT_SETTINGS')
@@ -36,7 +34,7 @@ class QuestionObject(db.Model):
             return "NO"
 
     def _make_secret(self):
-        return ''.join([random.choice(wordlist) for wordlist in WORDLISTS])
+        return uuid.uuid4().hex
 
 
 class QuestionObjectCreationForm(Form):
