@@ -82,6 +82,7 @@ class VisitQuestionPage(QuestionPageMixin, MethodView):
         )
 
     def post(self, page_name):
+        page_name = request.form.get('page_name', page_name)
         question_object = self.get_question_object(page_name)
         if question_object:
             # if it exists, this isn't the place to post to it (editing is
