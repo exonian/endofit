@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 
+{% from "_formhelpers.html" import render_field %}
+
+
 {% block title %}{{ page_name }} doesn't exist yet{% endblock title %}
 
 {% block page %}
     <form action="" method="post">
-        <input type="text" name="page_name" value="{{ page_name }}" placeholder="yourquestion" />
+        {{ render_field(form.page_name, value=page_name) }}
 
         <button type="submit" name="answer" value="1">YES</button>
         <button type="submit" name="answer" value="0">NO</button>
