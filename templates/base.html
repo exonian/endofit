@@ -12,6 +12,8 @@
         {% if hide_from_search %}<meta name="robots" content="NOINDEX, NOFOLLOW">{% endif %}
 
         {% block style %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='flatstrap/css/bootstrap.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='flatstrap/css/bootstrap-responsive.css') }}">
         {% endblock style %}
         {% block extra_style %}{% endblock %}
 
