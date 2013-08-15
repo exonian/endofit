@@ -5,18 +5,17 @@ body {
   padding: 0; }
 
 .container {
-  margin: 0 auto -7em;
+  margin: 0 auto -3.2em;
   min-height: 100%;
   height: auto !important;
   height: 100%; }
 
 footer {
-  height: 5em;
-  padding: 1em;
-  background: orange; }
+  height: 1.2em;
+  padding: 1em; }
 
 .push {
-  height: 7em; }
+  height: 3.2em; }
 
 h1.answer {
   font-size: 10em;
