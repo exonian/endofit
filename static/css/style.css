@@ -1,0 +1,19 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+
+.container {
+  margin: 0;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin-bottom: -70px; }
+
+footer {
+  height: 70px;
+  background: orange; }
+
+.push {
+  height: 70px; }

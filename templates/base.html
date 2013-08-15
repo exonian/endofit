@@ -14,6 +14,7 @@
         {% block style %}
             <link rel="stylesheet" href="{{ url_for('static', filename='flatstrap/css/bootstrap.css') }}">
             <link rel="stylesheet" href="{{ url_for('static', filename='flatstrap/css/bootstrap-responsive.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         {% endblock style %}
         {% block extra_style %}{% endblock %}
 
@@ -29,6 +30,7 @@
 
             {% block page %}{% endblock %}
 
+            <div class="push"></div>
         </div>
 
         <footer>
