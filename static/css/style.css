@@ -17,9 +17,11 @@ footer {
 .push {
   height: 3.2em; }
 
+h1 {
+  text-align: center; }
+
 h1.answer {
   font-size: 10em;
-  text-align: center;
   margin: 1em 0; }
 
 form.buttons {
