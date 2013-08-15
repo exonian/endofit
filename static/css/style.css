@@ -11,8 +11,14 @@ body {
   height: 100%; }
 
 footer {
-  height: 7em;
+  height: 5em;
+  padding: 1em;
   background: orange; }
 
 .push {
   height: 7em; }
+
+h1.answer {
+  font-size: 10em;
+  text-align: center;
+  margin: 1em 0; }
