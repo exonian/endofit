@@ -32,7 +32,9 @@
         </div>
 
         <footer>
-            {% block footer %}{% endblock %}
+            {% block footer %}
+                <p>And that's the <a href="{{ url_for('home') }}">endof.it</a></p>
+            {% endblock footer %}
         </footer>
 
         {% block script %}

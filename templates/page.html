@@ -5,7 +5,3 @@
 {% block page %}
     <h1 class="answer">{{ question_object.get_display_answer() }}</h1>
 {% endblock page %}
-
-{% block footer %}
-    <p>And that's the <a href="{{ url_for('home') }}">endof.it</a></p>
-{% endblock footer %}
