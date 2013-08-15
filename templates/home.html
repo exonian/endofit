@@ -3,5 +3,12 @@
 {% block title_hyphen %}{% endblock %}
 
 {% block page %}
-    <h1 >Welcome to endof.it</h1>
+    <h1>Welcome to endof.it</h1>
+    <h2>Bringing powerful and sophisticated web rhetoric to the masses</h2>
+
+    <div class="well">
+        {% set demo_url =  url_for('visit_question_page', page_name='didijustwintheargument') %}
+        <p>To make your own page like <a href="{{ demo_url }}">{{ demo_url }}</a>, just go to the address you want and, if it's available, you can make it.</p>
+        <p>For even more impact, feel free to point a domain's CNAME record at your <em>endof.it</em> page.</p>
+    </div>
 {% endblock page %}
