@@ -199,3 +199,8 @@ app.add_url_rule(
     subdomain='<page_name>',
     view_func=SecretAdmin.as_view('secret_admin')
 )
+
+import logging
+stream_handler = logging.StreamHandler()
+app.logger.addHandler(stream_handler)
+app.logger.setLevel(logging.INFO)
