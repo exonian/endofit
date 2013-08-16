@@ -8,7 +8,7 @@ from wtforms import BooleanField, Form, TextField, validators
 
 app = Flask(__name__)
 app.config.from_envvar('ENDOFIT_SETTINGS')
-app.config.from_envvar('SERVER_NAME')
+app.config['SERVER_NAME'] = os.environ['SERVER_NAME']
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
