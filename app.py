@@ -198,7 +198,3 @@ app.add_url_rule(
     subdomain='<page_name>',
     view_func=SecretAdmin.as_view('secret_admin')
 )
-
-
-if __name__ == '__main__':
-    app.run()
