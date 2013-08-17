@@ -64,6 +64,8 @@ class QuestionPageMixin(object):
 class VisitQuestionPage(QuestionPageMixin, MethodView):
 
     def get(self, page_name):
+        if page_name in app.config['IGNORED_SUBDOMAINS']:
+            return redirect(url_for('home'))
         question_object = self.get_question_object(page_name)
         if question_object:
             return self.get_existing_page(question_object)
@@ -125,6 +127,8 @@ class VisitQuestionPage(QuestionPageMixin, MethodView):
 class PublicAdmin(QuestionPageMixin, MethodView):
 
     def get(self, page_name):
+        if page_name in app.config['IGNORED_SUBDOMAINS']:
+            return redirect(url_for('home'))
         question_object = self.get_question_object(page_name)
         if not question_object:
             return redirect(url_for(
@@ -154,6 +158,8 @@ class PublicAdmin(QuestionPageMixin, MethodView):
 class SecretAdmin(QuestionPageMixin, MethodView):
 
     def get(self, page_name, secret):
+        if page_name in app.config['IGNORED_SUBDOMAINS']:
+            return redirect(url_for('home'))
         question_object = self.get_question_object(page_name)
         if question_object and question_object.secret == secret:
             return self.get_admin(question_object)
