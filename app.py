@@ -42,7 +42,7 @@ class QuestionObject(db.Model):
 
 class QuestionObjectCreationForm(Form):
     page_name = TextField(
-        'Your question',
+        'Set your question and answer',
         [
             validators.Regexp(r'^\w+$', message='Letters and numbers only, please'),
             validators.Length(min=1, max=256),
