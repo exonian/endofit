@@ -1,3 +1,4 @@
+import datetime
 import os
 import uuid
 
@@ -18,6 +19,7 @@ class QuestionObject(db.Model):
     secret = db.Column(db.String(56))
     answer = db.Column(db.Boolean())
     email = db.Column(db.String(120))
+    created_at = db.Column(db.DateTime, default=datetime.datetime.now)
 
     def __init__(self, page_name, answer, email=None):
         self.page_name = page_name
