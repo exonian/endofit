@@ -3,6 +3,6 @@
 {% block title %}Too late, {{ existing_page_name }} is gone already!{% endblock title %}
 
 {% block page %}
-    <p>Oh no, somebody beat you to <em>"{{ existing_page_name }}"</em> &mdash; maybe try something else?</p>
+    <p class="alert alert-error">Oh no, somebody beat you to <em>"{{ existing_page_name }}"</em> &mdash; maybe try something else?</p>
     {{ super() }}
 {% endblock page %}

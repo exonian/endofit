@@ -6,7 +6,7 @@
 {% block title %}{{ page_name }} hasn't been answered yet!{% endblock title %}
 
 {% block page %}
-    <form action="" method="post">
+    <form action="" method="post" class="well">
         {{ render_field(form.page_name, value=page_name) }}
 
         <button type="submit" class="btn btn-success" name="answer" value="1">YES</button>
