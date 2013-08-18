@@ -17,13 +17,22 @@ footer {
 .push {
   height: 3.2em; }
 
+.brand {
+  font-family: "Varela Round", sans-serif;
+  letter-spacing: -0.12em;
+  color: #cc4400; }
+  .brand .dot {
+    letter-spacing: normal; }
+
 h1 {
   text-align: center;
   margin-top: 1em; }
-
-h1.answer {
-  font-size: 10em;
-  margin-bottom: 1em; }
+  h1.answer {
+    font-size: 10em;
+    margin-bottom: 1em; }
+  h1.brand {
+    font-size: 7em;
+    margin-bottom: 0.2em; }
 
 h2 {
   font-size: 1.6em;

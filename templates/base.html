@@ -11,6 +11,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% if hide_from_search %}<meta name="robots" content="NOINDEX, NOFOLLOW">{% endif %}
 
+        <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         {% block style %}
             <link rel="stylesheet" href="{{ url_for('static', filename='flatstrap/css/bootstrap.css') }}">
             <link rel="stylesheet" href="{{ url_for('static', filename='flatstrap/css/bootstrap-responsive.css') }}">
