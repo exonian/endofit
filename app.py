@@ -36,6 +36,9 @@ class QuestionObject(db.Model):
         else:
             return "NO"
 
+    def get_display_created_at(self):
+        return self.created_at.strftime('%H:%M %d/%m/%Y')
+
     def _make_secret(self):
         return uuid.uuid4().hex
 
@@ -185,6 +188,23 @@ class SecretAdmin(QuestionPageMixin, MethodView):
         ))
 
 
+class PageList(MethodView):
+
+    def get(self, secret):
+        if secret != os.environ['LIST_VIEW_SECRET']:
+            abort(404)
+
+        pages = self.get_pages()
+
+        return render_template(
+            'page_list.html',
+            pages=pages,
+        )
+
+    def get_pages(self):
+        return QuestionObject.query.all()
+
+
 app.add_url_rule(
     '/',
     view_func=Home.as_view('home')
@@ -200,6 +220,11 @@ app.add_url_rule(
     '/admin',
     subdomain='<page_name>',
     view_func=PublicAdmin.as_view('public_admin')
+)
+
+app.add_url_rule(
+    '/<secret>',
+    view_func=PageList.as_view('page_list')
 )
 
 app.add_url_rule(

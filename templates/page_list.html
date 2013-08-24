@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Pages{% endblock title %}
+
+{% block page %}
+    <table class="well table">
+    {% for page in pages %}
+        <tr>
+            <th>{{ page.page_name }}</th>
+            <td>{{ page.get_display_answer() }}</td>
+            <td>{{ page.get_display_created_at() }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock page %}
