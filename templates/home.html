@@ -10,7 +10,7 @@
 
     <div class="well">
         {% set demo_url =  url_for('visit_question_page', page_name='didijustwintheargument') %}
-        <p>To make your own page like <a href="{{ demo_url }}">{{ demo_url }}</a>, just go to the address you want and, if it's available, you can make it.</p>
+        <p>To make your own page like <a href="{{ demo_url }}">{{ demo_url }}</a>, either go to the address you want and claim it if it doesn't yet exist, or do it right here:</p>
         <form action="{{ url_for('new_question_page') }}" method="post">
             {{ render_field(form.page_name, value=page_name) }}
 
