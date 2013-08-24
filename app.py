@@ -5,6 +5,7 @@ import uuid
 from flask import abort, Flask, render_template, redirect, request, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.views import MethodView
+from sqlalchemy import exc as sql_exceptions
 from wtforms import BooleanField, Form, TextField, validators
 
 app = Flask(__name__)
@@ -55,8 +56,12 @@ class QuestionObjectCreationForm(Form):
 
 class Home(MethodView):
 
-    def get(self):
-        return render_template('home.html')
+    def get(self, form=None):
+        form = QuestionObjectCreationForm()
+        return render_template(
+            'home.html',
+            form=form
+        )
 
 
 class QuestionPageMixin(object):
@@ -115,18 +120,35 @@ class VisitQuestionPage(QuestionPageMixin, MethodView):
                 form.page_name.data,
                 raw_form['answer']
             )
-            db.session.add(new_question_object)
-            db.session.commit()
+            try:
+                db.session.add(new_question_object)
+                db.session.commit()
+            except sql_exceptions.IntegrityError:
+                return self.page_exists(new_question_object.page_name)
             return redirect(url_for(
                 'secret_admin',
                 page_name=new_question_object.page_name,
                 secret=new_question_object.secret,
             ))
         else:
-            return self.get_placeholder_page(
-                page_name=form.page_name.data,
-                form=form
-            )
+            return self.invalid(form)
+
+    def invalid(self, form):
+        return self.get_placeholder_page(
+            page_name=form.page_name.data,
+            form=form
+        )
+
+
+class NewQuestionPage(VisitQuestionPage):
+
+    def post(self):
+        raw_form = request.form
+        form = QuestionObjectCreationForm(raw_form)
+        return self.create_page(raw_form, form)
+
+    def get(self, *args, **kwargs):
+        return redirect(url_for('home'))
 
 
 class PublicAdmin(QuestionPageMixin, MethodView):
@@ -208,6 +230,11 @@ class PageList(MethodView):
 app.add_url_rule(
     '/',
     view_func=Home.as_view('home')
+)
+
+app.add_url_rule(
+    '/new',
+    view_func=NewQuestionPage.as_view('new_question_page')
 )
 
 app.add_url_rule(

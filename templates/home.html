@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% from "_formhelpers.html" import render_field %}
+
 {% block title_hyphen %}{% endblock %}
 
 {% block page %}
@@ -9,6 +11,12 @@
     <div class="well">
         {% set demo_url =  url_for('visit_question_page', page_name='didijustwintheargument') %}
         <p>To make your own page like <a href="{{ demo_url }}">{{ demo_url }}</a>, just go to the address you want and, if it's available, you can make it.</p>
+        <form action="{{ url_for('new_question_page') }}" method="post">
+            {{ render_field(form.page_name, value=page_name) }}
+
+            <button type="submit" class="btn btn-success" name="answer" value="1">YES</button>
+            <button type="submit" class="btn btn-danger" name="answer" value="0">NO</button>
+        </form>
     </div>
     <div class="well clearfix">
         <p class="pull-left">Made by <a href="https://twitter.com/intent/user?screen_name=rogue_michael" class="icon-twitter">@rogue_michael</a></p>
