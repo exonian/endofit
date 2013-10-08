@@ -224,7 +224,7 @@ class PageList(MethodView):
         )
 
     def get_pages(self):
-        return QuestionObject.query.all()
+        return QuestionObject.query.order_by('created_at')
 
 
 app.add_url_rule(
